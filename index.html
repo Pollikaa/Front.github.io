@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="script.js" defer></script>
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="shortcut icon" href="icon.png" type="image/png">
+  <title>Лабораторна робота №10</title>
+  <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<div class="app">
+  <div class="card-container">
+    <div class="card">
+      <div class="front">
+        <p id="word">always</p>
+      </div>
+      <div class="back">
+        <div class="card-content">
+          <p id="emoji">🐕</p>
+          <p id="correct-translation">собака</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <button id="prev" class="arrow">←</button>
+    <p id="step">1/10</p>
+    <button id="next" class="arrow">→</button>
+  </div>
+  <div class="input-section">
+    <input type="text" id="translation" placeholder="Введіть переклад" autocomplete="off">
+    <button id="check">Перевірити</button>
+  </div>
+  <div class="stats">
+    <p class="correct">Вірно: <span id="correct-count">0</span></p>
+    <p class="total">Статистика</p>
+    <p class="wrong">Невірно: <span id="wrong-count">0</span></p>
+  </div>
+</div>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <p id="knowledge-level">Ваш рівень: Початковий</p>
+    <button id="close-modal">Закрити</button>
+  </div>
+</div>
+</body>
+</html>
