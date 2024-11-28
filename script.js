@@ -11,29 +11,44 @@ $(document).ready(function () {
     { english: "tiger", translation: "тигр", emoji: "🐅" },
     { english: "horse", translation: "кінь", emoji: "🐎" },
   ];
+
+  // Перемішування карток
+  const shuffledWords = words.sort(() => Math.random() - 0.5);
+
   let currentIndex = 0;
   let correctCount = 0;
   let wrongCount = 0;
+  let answered = false; // Відстеження, чи відповідь вже була дана
+
   function updateCard() {
-    const word = words[currentIndex];
+    const word = shuffledWords[currentIndex];
     $("#word").text(word.english);
     $("#emoji").text("");
     $("#correct-translation").text("");
-    $("#step").text(`${currentIndex + 1}/${words.length}`);
+    $("#step").text(`${currentIndex + 1}/${shuffledWords.length}`);
     $("#translation").val("");
     $(".card").removeClass("flipped");
+    answered = false; // Скидаємо статус відповіді
   }
+
   function flipCard() {
-    const word = words[currentIndex];
+    const word = shuffledWords[currentIndex];
     $(".card").toggleClass("flipped");
     if ($(".card").hasClass("flipped")) {
       $("#emoji").text(word.emoji);
       $("#correct-translation").text(word.translation);
     }
   }
+
   $("#check").click(function () {
+    if (answered) {
+      alert("Ви вже відповіли на цю картку. Перейдіть до наступної.");
+      return;
+    }
+
     const userInput = $("#translation").val().trim().toLowerCase();
-    const currentWord = words[currentIndex];
+    const currentWord = shuffledWords[currentIndex];
+
     if (userInput === currentWord.translation.toLowerCase()) {
       correctCount++;
       $("#correct-count").text(correctCount);
@@ -43,33 +58,38 @@ $(document).ready(function () {
       $("#wrong-count").text(wrongCount);
       alert(`Неправильно! Правильна відповідь: ${currentWord.translation}`);
     }
-    $("#translation").val("");
+
+    answered = true; // Встановлюємо, що відповідь вже дана
     flipCard();
   });
+
   $("#prev").click(function () {
     if (currentIndex > 0) {
       currentIndex--;
       updateCard();
     }
   });
+
   $("#next").click(function () {
-    if (currentIndex < words.length - 1) {
+    if (currentIndex < shuffledWords.length - 1) {
       currentIndex++;
       updateCard();
     } else {
       $("#modal").show();
       const knowledgeLevel =
-        correctCount / words.length > 0.8
+        correctCount / shuffledWords.length > 0.8
           ? "Високий"
-          : correctCount / words.length > 0.5
+          : correctCount / shuffledWords.length > 0.5
           ? "Середній"
           : "Початковий";
       $("#knowledge-level").text(`Ваш рівень: ${knowledgeLevel}`);
     }
   });
+
   $("#close-modal").click(function () {
     $("#modal").hide();
   });
+
   updateCard();
 });
 
